@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate a configuration.yaml with resolved hex colors from extracted_colors.yaml."""
-
+import os
 from pathlib import Path
 import sys
 import yaml
@@ -47,6 +47,8 @@ def main():
 
     with open(output_path, "w", encoding="utf-8") as f:
         yaml.safe_dump(resolved_config, f, sort_keys=False, allow_unicode=True)
+    os.system(f"rm {template_path}")
+    os.system(f"rm {colors_path}")
 
     print(f"✅ Generated resolved config → {output_path.resolve()}")
 

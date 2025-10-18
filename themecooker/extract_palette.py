@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract dominant colors from ./backgrounds and export colors.yaml"""
+"""Extract dominant colors from ./images and export colors.yaml"""
 
 from pathlib import Path
 from PIL import Image
@@ -25,9 +25,9 @@ def extract_colors_from_image(image_path: Path, max_colors=10):
 
 
 def main():
-    backgrounds_dir = Path.cwd() / "backgrounds"
+    backgrounds_dir = Path.cwd() / "images"
     if not backgrounds_dir.exists():
-        print(f"❌ No backgrounds directory found at {backgrounds_dir}")
+        print(f"❌ No images directory found at {backgrounds_dir}")
         return
 
     all_colors = []

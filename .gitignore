@@ -9,4 +9,4 @@ wheels/
 # Virtual environments
 .venv
 /python_package/themecooker/themes/
-/backgrounds/
+/images/
