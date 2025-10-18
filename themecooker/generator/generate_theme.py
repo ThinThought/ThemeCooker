@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Sequence
@@ -61,6 +62,23 @@ def load_configuration(path: Path) -> Dict[str, dict]:
     except Exception as e:
         raise SystemExit(f"❌ Error leyendo configuración {path}: {e}")
 
+def copy_backgrounds(images_dir: Path, dest_dir: Path):
+    """Copia el contenido de images_dir → dest_dir/backgrounds."""
+    if not images_dir.exists() or not images_dir.is_dir():
+        print("⚠️  No se encontró carpeta 'images/', omitiendo fondos.")
+        return
+
+    backgrounds_dir = dest_dir / "backgrounds"
+    backgrounds_dir.mkdir(parents=True, exist_ok=True)
+
+    copied = 0
+    for file in images_dir.iterdir():
+        if file.is_file():
+            shutil.copy(file, backgrounds_dir / file.name)
+            copied += 1
+
+    print(f"🖼️  Copiados {copied} fondos → {backgrounds_dir}")
+
 # ────────────────────────────────────────────────
 #  Generadores simples
 # ────────────────────────────────────────────────
@@ -94,7 +112,7 @@ SIMPLE_COMPONENTS: Dict[str, Callable[[str], str]] = {
 # ────────────────────────────────────────────────
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Generate a complete theme from a configuration YAML.")
-    parser.add_argument("config_file", help="Archivo YAML de configuración (ej. tokyonight_configuration.yaml)")
+    parser.add_argument("config_file", help="Archivo YAML de configuración (ej. embention_configuration.yaml)")
     args = parser.parse_args(argv)
 
     config_path = Path(args.config_file).expanduser()
@@ -103,7 +121,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     theme_name = config_path.stem.replace("_configuration", "")
     templates_dir = DEFAULT_TEMPLATES_DIR
-    output_dir = Path.cwd() / theme_name   # 🔥 genera en el cwd
+    output_dir = Path.cwd() / theme_name
+    images_dir = Path.cwd() / "images"
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"✨ Generando theme '{theme_name}' desde {config_path.name}")
@@ -129,6 +149,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         }[name]
         out_file.write_text(generator(theme_name))
         print(f"  • {name}: {out_file.name}")
+
+    # Copiar fondos
+    copy_backgrounds(images_dir, output_dir)
 
     print(f"✅ Theme '{theme_name}' generado correctamente en {output_dir}")
     return 0

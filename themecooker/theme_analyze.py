@@ -81,7 +81,7 @@ def map_config_colors(node: Any, color_lookup: Dict[str, str]) -> Any:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 analyze_configuration.py <config.yaml>")
+        print("Usage: python3 theme_analyze.py <config.yaml>")
         sys.exit(1)
 
     path = Path(sys.argv[1])
@@ -103,19 +103,12 @@ def main():
 
     # Always save in current working directory
     cwd = Path(os.getcwd())
-    out_config = cwd / "mapped_config.yaml"
-    out_colors = cwd / "colors.yaml"
     out_png = cwd / "palette_preview.png"
-
-    out_config.write_text(yaml.safe_dump(mapped_config, sort_keys=False, allow_unicode=True))
-    out_colors.write_text(yaml.safe_dump(color_dict, sort_keys=True, allow_unicode=True))
     generate_palette_preview_png(color_dict, out_png)
 
     print(f"\n📄 File analyzed: {path.name}")
     print(f"🎨 Unique colors: {len(color_dict)}")
     print("✅ Outputs saved:")
-    print(f"   - {out_config.name}")
-    print(f"   - {out_colors.name}")
     print(f"   - {out_png.name}")
 
 

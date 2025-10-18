@@ -1,45 +1,65 @@
-# ThemeCooker
+# 🍳 ThemeCooker
 
-ThemeCooker or Theme Cooker, es una app que se me ha ocurrido para semi-auto-generar themes para omarchy, en base a 
-backgrounds que se pasen como input para el theme.
+CLI toolkit to **generate full visual themes** for Omarchy and similar Linux environments.  
+Automates everything: extract → prepare → build.
 
-Debemos partir de un template theme y luego afinar hacia lo que queremos conseguir.
+---
 
-# Setup
+## ⚡ Workflow
 
-I am going to give a try to UV python from astral.
-
-## Install
-```bash
-pip install .
-```
-
-## Commands
-
-### let-me-cook
-Gives you a cook-theme_template.yaml with every value with null. You do what you want. 
+Run commands **from a working directory that contains an `images/` folder**  
+(with your wallpapers or color reference images).  
 
 ```bash
-let-me-cook
-```
+theme-template                     # 1. Create base config template
+theme-extract                      # 2. Extract color palette from images/
+theme-prepare my_theme             # 3. Merge palette + template
+theme-build my_theme_configuration.yaml  # 4. Generate theme folder
+````
 
-
-Also in this repository I am working on how to extract a color code for a theme based on the backgrounds
-
-
-### cook-theme
-
-You can cook your own theme
+Checkout the extracted color palette with:
 
 ```bash
-export theme_name="tokyonight"
-cook-theme --config tokyonight_config.yaml \
-           --output-dir "./$theme_name" \
-           "$theme_name"
+theme-analyze my_theme_configuration.yaml
 ```
 
-## Theme generator
-I am trying to automate the theme creation taking images and extracting color schemes.
 
-I want to later use those color schemes to generate a theme using templates, taking input data from yaml and using python to process that.
+---
 
+## 🧩 Commands
+
+| Command                     | Description                                                                      |
+| --------------------------- | -------------------------------------------------------------------------------- |
+| `theme-template`            | Create `template_configuration.yaml`                                             |
+| `theme-extract`             | Extract colors from `images/` → `colors_extracted.yaml` + preview                |
+| `theme-prepare <name>`      | Combine palette + template → `<name>_configuration.yaml`                         |
+| `theme-build <config.yaml>` | Build all theme assets (kitty, waybar, etc.) and copy `images/` → `backgrounds/` |
+| `theme-analyze <file>`      | Inspect an existing config and map colors                                        |
+
+---
+
+## 📁 Example Output
+
+```
+embention/
+├── alacritty.toml
+├── kitty.conf
+├── waybar.css
+├── mako.ini
+├── icons.theme
+└── backgrounds/
+    ├── bg1.png
+    └── bg2.png
+```
+
+---
+
+## 🧱 Built For
+
+* Omarchy & Hyprland setups
+* Fast theme prototyping
+* CI/CD automation of color schemes
+
+---
+
+**by Daiego43 / ThinThought — 2025**
