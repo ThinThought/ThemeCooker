@@ -14,7 +14,7 @@ def main():
             dest_path = Path.cwd() / "template_configuration.yaml"
 
             if dest_path.exists():
-                print(f"⚠️  '{dest_path}' already exists — aborting to avoid overwrite.")
+                print(f"✅ ️'{dest_path}' Already present")
                 sys.exit(1)
 
             shutil.copy(template_path, dest_path)

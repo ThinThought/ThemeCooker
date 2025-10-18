@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate every supported theme asset from configuration values and templates."""
+"""Generate full theme (config + all assets) only from a theme name."""
 
 from __future__ import annotations
 import argparse
@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Sequence
 import yaml
 from jinja2 import Template
+import os
+import sys
 
 # ────────────────────────────────────────────────
 #  Configuración base
@@ -53,30 +55,34 @@ def normalize_theme_name(name: str):
     flat_name = re.sub(r"[-_\s]+", "", name.lower())
     return display_name, kebab_name, flat_name
 
-def load_configuration(path: Path) -> Dict[str, dict]:
-    try:
-        data = yaml.safe_load(path.read_text()) or {}
-        if not isinstance(data, dict):
-            raise TypeError
-        return data
-    except Exception as e:
-        raise SystemExit(f"❌ Error leyendo configuración {path}: {e}")
+def load_yaml(path: Path):
+    if not path.exists():
+        raise FileNotFoundError(f"❌ File not found: {path}")
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+def resolve_colors(node, color_map):
+    """Recursively replace color_XX keys with hex values."""
+    if isinstance(node, dict):
+        return {k: resolve_colors(v, color_map) for k, v in node.items()}
+    elif isinstance(node, list):
+        return [resolve_colors(v, color_map) for v in node]
+    elif isinstance(node, str) and node.startswith("color_"):
+        return color_map.get(node, node)
+    else:
+        return node
 
 def copy_backgrounds(images_dir: Path, dest_dir: Path):
-    """Copia el contenido de images_dir → dest_dir/backgrounds."""
     if not images_dir.exists() or not images_dir.is_dir():
         print("⚠️  No se encontró carpeta 'images/', omitiendo fondos.")
         return
-
     backgrounds_dir = dest_dir / "backgrounds"
     backgrounds_dir.mkdir(parents=True, exist_ok=True)
-
     copied = 0
     for file in images_dir.iterdir():
         if file.is_file():
             shutil.copy(file, backgrounds_dir / file.name)
             copied += 1
-
     print(f"🖼️  Copiados {copied} fondos → {backgrounds_dir}")
 
 # ────────────────────────────────────────────────
@@ -108,30 +114,43 @@ SIMPLE_COMPONENTS: Dict[str, Callable[[str], str]] = {
 }
 
 # ────────────────────────────────────────────────
-#  CLI principal
+#  Generar config a partir de nombre
 # ────────────────────────────────────────────────
-def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Generate a complete theme from a configuration YAML.")
-    parser.add_argument("config_file", help="Archivo YAML de configuración (ej. embention_configuration.yaml)")
-    args = parser.parse_args(argv)
+def generate_theme_config(theme_name: str) -> Path:
+    cwd = Path.cwd()
+    colors_path = cwd / "colors_extracted.yaml"
+    template_path = cwd / "template_configuration.yaml"
+    output_path = cwd / f"{theme_name}_configuration.yaml"
 
-    config_path = Path(args.config_file).expanduser()
-    if not config_path.exists():
-        raise SystemExit(f"❌ No se encontró el archivo: {config_path}")
+    print(f"🎨 Using extracted colors → {colors_path}")
+    print(f"🧩 Using template config → {template_path}")
 
+    colors_data = load_yaml(colors_path)
+    config_template = load_yaml(template_path)
+    resolved_config = resolve_colors(config_template, colors_data)
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        yaml.safe_dump(resolved_config, f, sort_keys=False, allow_unicode=True)
+
+    print(f"✅ Generated resolved config → {output_path.resolve()}")
+    return output_path
+
+# ────────────────────────────────────────────────
+#  Generar todos los assets
+# ────────────────────────────────────────────────
+def build_theme_from_config(config_path: Path):
     theme_name = config_path.stem.replace("_configuration", "")
     templates_dir = DEFAULT_TEMPLATES_DIR
     output_dir = Path.cwd() / theme_name
     images_dir = Path.cwd() / "images"
 
     output_dir.mkdir(parents=True, exist_ok=True)
-
     print(f"✨ Generando theme '{theme_name}' desde {config_path.name}")
     print(f"📦 Carpeta de salida → {output_dir}")
 
-    config = load_configuration(config_path)
+    config = load_yaml(config_path)
 
-    # Generar con plantillas
+    # Plantillas
     for spec in TEMPLATED_COMPONENTS:
         template_path = templates_dir / spec.template_filename
         data = config.get(spec.config_key, {})
@@ -139,7 +158,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         generate_file_from_template(template_path, data, out_path)
         print(f"  • {spec.name}: {out_path.name}")
 
-    # Generar simples
+    # Archivos simples
     for name, generator in SIMPLE_COMPONENTS.items():
         out_file = output_dir / {
             "icons": "icons.theme",
@@ -150,11 +169,21 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         out_file.write_text(generator(theme_name))
         print(f"  • {name}: {out_file.name}")
 
-    # Copiar fondos
     copy_backgrounds(images_dir, output_dir)
-
     print(f"✅ Theme '{theme_name}' generado correctamente en {output_dir}")
+
+# ────────────────────────────────────────────────
+#  CLI principal
+# ────────────────────────────────────────────────
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate full theme from a theme name.")
+    parser.add_argument("theme_name", help="Nombre del theme (ej. embention)")
+    args = parser.parse_args(argv)
+    theme_name = args.theme_name
+
+    config_path = generate_theme_config(theme_name)
+    build_theme_from_config(config_path)
     return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

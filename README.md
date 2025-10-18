@@ -3,53 +3,92 @@
 CLI toolkit to **generate full visual themes** for Omarchy and similar Linux environments.  
 Automates everything: extract → prepare → build.
 
+You simply need to prepare a folder with new backgrounds, then the program will extract a color palette from them and 
+all the files for the theme will be created.
 ---
 
-## ⚡ Workflow
+## Installation
 
-Run commands **from a working directory that contains an `images/` folder**  
-(with your wallpapers or color reference images).  
+Clone this repository, so you should be inside your `ThemeCooker` directory.
+```commandline
+pip install .
+```
+`ThemeCooker` installs as a python package, giving you the following commands (and workflow).
 
-```bash
-theme-template                     # 1. Create base config template
-theme-extract                      # 2. Extract color palette from images/
-theme-prepare my_theme             # 3. Merge palette + template
-theme-build my_theme_configuration.yaml  # 4. Generate theme folder
-````
+## Usage
+### theme-template
+Copy a theme configuration `template_configuration.yaml` to your working directory
 
-Checkout the extracted color palette with:
+command:
+```commandline
+theme-template
+```
+output:
+```terminaloutput
+✅ ️'/home/daiego/ThinThought/ThemeCooker/template_configuration.yaml' Already present
+```
+### theme-extract
+This command will extract a 37 colors to elaborate a palette in a resulting `colors_extracted.yaml`.
 
-```bash
-theme-analyze my_theme_configuration.yaml
+command:
+```commandline
+theme-extract
+```
+output:
+```terminaloutput
+🎨 Processing img.png
+🎨 Processing img_1.png
+🎨 Processing img_3.png
+🎨 Processing img_4.png
+🎨 Processing img_5.png
+🎨 Processing img_6.png
+🎨 Processing img_7.png
+🎨 Processing img_8.png
+✅ Extracted 37 colors → /home/daiego/ThinThought/ThemeCooker/colors_extracted.yaml
 ```
 
-
----
-
-## 🧩 Commands
-
-| Command                     | Description                                                                      |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| `theme-template`            | Create `template_configuration.yaml`                                             |
-| `theme-extract`             | Extract colors from `images/` → `colors_extracted.yaml` + preview                |
-| `theme-prepare <name>`      | Combine palette + template → `<name>_configuration.yaml`                         |
-| `theme-build <config.yaml>` | Build all theme assets (kitty, waybar, etc.) and copy `images/` → `backgrounds/` |
-| `theme-analyze <file>`      | Inspect an existing config and map colors                                        |
-
----
-
-## 📁 Example Output
-
+### theme-preview
+You can preview this palette with:
+```commandline
+theme-preview colors_extracted.yaml
 ```
-embention/
+this will generate a `palette_preview.png` like this:
+
+![palette_preview](palette_preview.png)
+
+## theme-gen
+Finally generate an Omarchy theme with your fresh configuration with colors
+```commandline
+theme-gen example_theme
+```
+
+The theme generated will have your images as backgrounds and the following structure:
+```terminaloutput
+example
 ├── alacritty.toml
-├── kitty.conf
-├── waybar.css
-├── mako.ini
+├── backgrounds
+│   ├── img_1.png
+│   ├── img_3.png
+│   ├── img_4.png
+│   ├── img_5.png
+│   ├── img_6.png
+│   ├── img_7.png
+│   ├── img_8.png
+│   └── img.png
+├── btop.theme
+├── chromium.theme
+├── eza.yml
+├── ghostty.conf
+├── hyprland.conf
+├── hyprlock.conf
 ├── icons.theme
-└── backgrounds/
-    ├── bg1.png
-    └── bg2.png
+├── kitty.conf
+├── mako.ini
+├── neovim.lua
+├── swayosd.css
+├── vscode.json
+├── walker.css
+└── waybar.css
 ```
 
 ---
@@ -58,8 +97,9 @@ embention/
 
 * Omarchy & Hyprland setups
 * Fast theme prototyping
-* CI/CD automation of color schemes
 
 ---
+"Idk, I thought it would be funny to automatically generate an Omarchy theme. I love the vibe I went through making this"
 
-**by Daiego43 / ThinThought — 2025**
+**Daiego43 / ThinThought — 2025**
+

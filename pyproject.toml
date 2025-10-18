@@ -15,11 +15,10 @@ dependencies = [
 ]
 
 [project.scripts]
-theme-template = "themecooker.let_me_cook:main"                 # crea la plantilla vacía
-theme-extract = "themecooker.extract_palette:main"              # extrae paleta
-theme-prepare = "themecooker.generator.generate_theme_config:main" # combina paleta + plantilla
-theme-build = "themecooker.generator.generate_theme:main"       # genera los archivos del tema
-theme-analyze = "themecooker.analyze_configuration:main"        # analiza configs
+theme-template   = "themecooker.get_template:main"                 # crea la plantilla vacía
+theme-extract    = "themecooker.get_palette_from_images:main"              # extrae paleta
+theme-preview    = "themecooker.get_palette_preview:main"        # analiza configs
+theme-gen        = "themecooker.generator.generate_theme:main"       # genera los archivos del tema
 
 # ──────────────────────────────────────────────
 #  SETUPTOOLS SETTINGS

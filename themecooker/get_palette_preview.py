@@ -81,7 +81,7 @@ def map_config_colors(node: Any, color_lookup: Dict[str, str]) -> Any:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 theme_analyze.py <config.yaml>")
+        print("Usage: python3 get_palette_preview.py <config.yaml>")
         sys.exit(1)
 
     path = Path(sys.argv[1])
