@@ -1,0 +1,22 @@
+# EZA THEME TEMPLATE
+# ───────────────────────────────────────────────
+user: "{{user}}"
+group: "{{group}}"
+permission_read: "{{permission_read}}"
+permission_write: "{{permission_write}}"
+permission_exec: "{{permission_exec}}"
+
+directory: "{{directory}}"
+file: "{{file}}"
+symlink: "{{symlink}}"
+pipe: "{{pipe}}"
+socket: "{{socket}}"
+block_device: "{{block_device}}"
+char_device: "{{char_device}}"
+
+git_new: "{{git_new}}"
+git_modified: "{{git_modified}}"
+git_deleted: "{{git_deleted}}"
+git_untracked: "{{git_untracked}}"
+
+special: "{{special}}"

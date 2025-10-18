@@ -1,0 +1,14 @@
+# CHROMIUM THEME TEMPLATE
+# ───────────────────────────────────────────────
+[Theme]
+frame = {{frame}}
+frame_inactive = {{frame_inactive}}
+toolbar = {{toolbar}}
+tab_text = {{tab_text}}
+bookmark_text = {{bookmark_text}}
+ntp_background = {{ntp_background}}
+ntp_text = {{ntp_text}}
+button_background = {{button_background}}
+button_foreground = {{button_foreground}}
+highlight = {{highlight}}
+highlight_text = {{highlight_text}}
