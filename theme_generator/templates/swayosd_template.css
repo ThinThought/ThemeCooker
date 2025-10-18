@@ -1,0 +1,5 @@
+@define-color background-color {{background_color}};
+@define-color border-color {{border_color}};
+@define-color label {{label}};
+@define-color image {{image}};
+@define-color progress {{progress}};
