@@ -1,6 +1,12 @@
 from pathlib import Path
-from jinja2 import Template
 import yaml
+from jinja2 import Template
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+ROOT_DIR = SCRIPT_DIR.parent
+YAML_DIR = ROOT_DIR / "yaml"
+TEMPLATE_DIR = ROOT_DIR / "templates"
 
 def generate_chromium(theme_yaml: Path, template_path: Path, output_path: Path):
     """Rellena la plantilla de Chromium con los colores definidos en el YAML."""
@@ -11,9 +17,8 @@ def generate_chromium(theme_yaml: Path, template_path: Path, output_path: Path):
     print(f"✅ Generated Chromium theme → {output_path}")
 
 if __name__ == "__main__":
-    base_dir = Path(__file__).parent
     generate_chromium(
-        theme_yaml=base_dir / "chromium.yaml",
-        template_path=base_dir / "chromium_template.theme",
-        output_path=base_dir / "chromium.theme"
+        theme_yaml=YAML_DIR / "chromium.yaml",
+        template_path=TEMPLATE_DIR / "chromium_template.theme",
+        output_path=SCRIPT_DIR / "chromium.theme",
     )

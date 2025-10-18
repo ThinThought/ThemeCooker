@@ -1,6 +1,12 @@
 from pathlib import Path
-from jinja2 import Template
 import yaml
+from jinja2 import Template
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+ROOT_DIR = SCRIPT_DIR.parent
+YAML_DIR = ROOT_DIR / "yaml"
+TEMPLATE_DIR = ROOT_DIR / "templates"
 
 def generate_hyprlock(theme_yaml: Path, template_path: Path, output_path: Path):
     """Rellena la plantilla de Hyprlock con los valores definidos en el YAML."""
@@ -11,9 +17,8 @@ def generate_hyprlock(theme_yaml: Path, template_path: Path, output_path: Path):
     print(f"✅ Generated Hyprlock config → {output_path}")
 
 if __name__ == "__main__":
-    base_dir = Path(__file__).parent
     generate_hyprlock(
-        theme_yaml=base_dir / "hyprlock.yaml",
-        template_path=base_dir / "hyprlock_template.conf",
-        output_path=base_dir / "hyprlock.conf"
+        theme_yaml=YAML_DIR / "hyprlock.yaml",
+        template_path=TEMPLATE_DIR / "hyprlock_template.conf",
+        output_path=SCRIPT_DIR / "hyprlock.conf",
     )

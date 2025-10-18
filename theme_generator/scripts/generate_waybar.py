@@ -1,6 +1,12 @@
 from pathlib import Path
-from jinja2 import Template
 import yaml
+from jinja2 import Template
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+ROOT_DIR = SCRIPT_DIR.parent
+YAML_DIR = ROOT_DIR / "yaml"
+TEMPLATE_DIR = ROOT_DIR / "templates"
 
 def generate_waybar(theme_yaml: Path, template_path: Path, output_path: Path):
     """Rellena la plantilla de Waybar con los colores definidos en el YAML."""
@@ -11,9 +17,8 @@ def generate_waybar(theme_yaml: Path, template_path: Path, output_path: Path):
     print(f"✅ Generated Waybar theme → {output_path}")
 
 if __name__ == "__main__":
-    base_dir = Path(__file__).parent
     generate_waybar(
-        theme_yaml=base_dir / "waybar.yaml",
-        template_path=base_dir / "waybar_template.css",
-        output_path=base_dir / "waybar.css"
+        theme_yaml=YAML_DIR / "waybar.yaml",
+        template_path=TEMPLATE_DIR / "waybar_template.css",
+        output_path=SCRIPT_DIR / "waybar.css",
     )

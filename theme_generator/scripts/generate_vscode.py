@@ -3,6 +3,10 @@ import argparse
 import re
 import json
 
+
+DEFAULT_THEME_NAME = "tokyonight"
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 def normalize_theme_name(name: str):
     """Genera las tres variantes del nombre del theme."""
     display_name = " ".join(word.capitalize() for word in re.split(r"[-_\s]+", name))
@@ -25,8 +29,17 @@ def generate_vscode(theme_name: str, output_path: Path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate VSCode theme config")
-    parser.add_argument("theme_name", help="Base name of the theme (e.g., TokyoNight)")
-    parser.add_argument("--output", default="vscode.json", help="Output file (default: vscode.json)")
+    parser.add_argument(
+        "theme_name",
+        nargs="?",
+        default=DEFAULT_THEME_NAME,
+        help="Base name of the theme (default: tokyonight)",
+    )
+    parser.add_argument(
+        "--output",
+        default=str(SCRIPT_DIR / "vscode.json"),
+        help="Output file (default: vscode.json next to this script)",
+    )
     args = parser.parse_args()
 
-    generate_vscode(args.theme_name, Path(args.output))
+    generate_vscode(args.theme_name, Path(args.output).expanduser())
