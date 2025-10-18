@@ -1,0 +1,28 @@
+# BTOP THEME TEMPLATE
+# ───────────────────────────────────────────────
+theme[main_bg]={{main_bg}}
+theme[main_fg]={{main_fg}}
+theme[title]={{title}}
+theme[hi_fg]={{hi_fg}}
+theme[selected_bg]={{selected_bg}}
+theme[selected_fg]={{selected_fg}}
+theme[graph_text]={{graph_text}}
+theme[meter_bg]={{meter_bg}}
+theme[proc_misc]={{proc_misc}}
+theme[cpu_box]={{cpu_box}}
+theme[mem_box]={{mem_box}}
+theme[net_box]={{net_box}}
+theme[proc_box]={{proc_box}}
+theme[div_line]={{div_line}}
+theme[graph_line]={{graph_line}}
+theme[cpu_start]={{cpu_start}}
+theme[cpu_mid]={{cpu_mid}}
+theme[cpu_end]={{cpu_end}}
+theme[mem_start]={{mem_start}}
+theme[mem_mid]={{mem_mid}}
+theme[mem_end]={{mem_end}}
+theme[net_rx]={{net_rx}}
+theme[net_tx]={{net_tx}}
+theme[proc_start]={{proc_start}}
+theme[proc_mid]={{proc_mid}}
+theme[proc_end]={{proc_end}}
