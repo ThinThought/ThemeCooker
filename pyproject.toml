@@ -9,5 +9,4 @@ dependencies = [
     "numpy>=2.3.4",
     "pathlib>=1.0.1",
     "pyyaml>=6.0.3",
-    "ruff>=0.14.1",
 ]
