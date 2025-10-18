@@ -20,7 +20,7 @@ from jinja2 import Template
 # ────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_TEMPLATES_DIR = BASE_DIR / "templates"
-DEFAULT_CONFIG_FILE = BASE_DIR / "configuration.yaml"
+DEFAULT_CONFIG_FILE = Path("tokyonight_config.yaml").resolve()
 DEFAULT_OUTPUT_ROOT = BASE_DIR / "generated"
 
 
@@ -161,4 +161,4 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

@@ -1,0 +1,158 @@
+alacritty:
+  background: null
+  foreground: null
+  normal_black: null
+  normal_red: null
+  normal_green: null
+  normal_yellow: null
+  normal_blue: null
+  normal_magenta: null
+  normal_cyan: null
+  normal_white: null
+  bright_black: null
+  bright_red: null
+  bright_green: null
+  bright_yellow: null
+  bright_blue: null
+  bright_magenta: null
+  bright_cyan: null
+  bright_white: null
+  selection_background: null
+
+btop:
+  main_bg: null
+  main_fg: null
+  title: null
+  hi_fg: null
+  selected_bg: null
+  selected_fg: null
+  graph_text: null
+  meter_bg: null
+  proc_misc: null
+  cpu_box: null
+  mem_box: null
+  net_box: null
+  proc_box: null
+  div_line: null
+  graph_line: null
+  cpu_start: null
+  cpu_mid: null
+  cpu_end: null
+  mem_start: null
+  mem_mid: null
+  mem_end: null
+  net_rx: null
+  net_tx: null
+  proc_start: null
+  proc_mid: null
+  proc_end: null
+
+chromium:
+  frame: null
+  frame_inactive: null
+  toolbar: null
+  tab_text: null
+  bookmark_text: null
+  ntp_background: null
+  ntp_text: null
+  button_background: null
+  button_foreground: null
+  highlight: null
+  highlight_text: null
+
+eza:
+  user: null
+  group: null
+  permission_read: null
+  permission_write: null
+  permission_exec: null
+  directory: null
+  file: null
+  symlink: null
+  pipe: null
+  socket: null
+  block_device: null
+  char_device: null
+  git_new: null
+  git_modified: null
+  git_deleted: null
+  git_untracked: null
+  special: null
+
+hyprland:
+  border_color_1: null
+  border_color_2: null
+  border_angle: null
+
+hyprlock:
+  color: null
+  inner_color: null
+  outer_color: null
+  font_color: null
+  check_color: null
+
+kitty:
+  theme_name: null
+  author: null
+  upstream: null
+  background: null
+  foreground: null
+  selection_background: null
+  selection_foreground: null
+  url_color: null
+  cursor: null
+  cursor_text_color: null
+  active_tab_background: null
+  active_tab_foreground: null
+  inactive_tab_background: null
+  inactive_tab_foreground: null
+  active_border_color: null
+  inactive_border_color: null
+  color0: null
+  color1: null
+  color2: null
+  color3: null
+  color4: null
+  color5: null
+  color6: null
+  color7: null
+  color8: null
+  color9: null
+  color10: null
+  color11: null
+  color12: null
+  color13: null
+  color14: null
+  color15: null
+  color16: null
+  color17: null
+
+mako:
+  include_path: null
+  text_color: null
+  border_color: null
+  background_color: null
+  padding: null
+  border_size: null
+  font: null
+  max_icon_size: null
+  outer_margin: null
+
+swayosd:
+  background_color: null
+  border_color: null
+  label: null
+  image: null
+  progress: null
+
+walker:
+  selected_text: null
+  text: null
+  base: null
+  border: null
+  foreground: null
+  background: null
+
+waybar:
+  foreground: null
+  background: null

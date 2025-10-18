@@ -1,12 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "themecooker"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.1"
+description = "Theme generator for Omarchy and beyond"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "jinja2>=3.1.6",
-    "numpy>=2.3.4",
-    "pathlib>=1.0.1",
+    "pillow>=12.0.0",
     "pyyaml>=6.0.3",
 ]
+
+[project.scripts]
+cook-theme = "themecooker.generator.generate_theme:main"
+let-me-cook = "themecooker.let_me_cook:main"
+let-me-taste = "themecooker.analyze_configuration:main"
+let-me-extract = "themecooker.extract_palette:main"
+
+
+# ──────────────────────────────────────────────
+#  SETUPTOOLS SETTINGS
+# ──────────────────────────────────────────────
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+namespaces = false
+
+# ──────────────────────────────────────────────
+#  ARCHIVOS EXTRA (PLANTILLAS, CONFIGS, IMÁGENES)
+# ──────────────────────────────────────────────
+[tool.setuptools.package-data]
+# Plantillas y configuración de generación
+"themecooker.generator" = [
+    "templates/*",
+    "config/theme_configuration_template.yaml",
+    "config/theme_configurations/*/configuration.yaml"
+]
+
+# Imágenes y fondos de temas
+"themecooker.themes.embention.backgrounds" = ["*"]
+"themecooker.themes.embention.embention_images" = ["*.png", "*.jpg", "*.jpeg"]
+
+# Si luego añades otros temas, repites bloques parecidos

@@ -92,7 +92,7 @@ hyprlock:
   check_color: '68,157,171,1.0'
 
 kitty:
-  theme_name: 'Tokyo Night'
+  theme_name: 'tokyonight'
   author: 'Folke Lemaitre'
   upstream: 'https://github.com/folke/tokyonight.nvim/raw/main/extras/kitty/tokyonight_night.conf'
   background: '#1a1b26'

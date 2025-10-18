@@ -8,4 +8,4 @@ wheels/
 
 # Virtual environments
 .venv
-/themecooker/themes/
+/python_package/themecooker/themes/
