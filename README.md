@@ -5,6 +5,7 @@ Automates everything: extract → prepare → build.
 
 You simply need to prepare a folder with new backgrounds, then the program will extract a color palette from them and 
 all the files for the theme will be created.
+
 ---
 
 ## Installation
