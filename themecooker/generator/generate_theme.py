@@ -2,15 +2,12 @@
 """Generate every supported theme asset from configuration values and templates."""
 
 from __future__ import annotations
-
 import argparse
 import json
 import re
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Sequence
-
 import yaml
 from jinja2 import Template
 
@@ -20,7 +17,6 @@ from jinja2 import Template
 # ────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_TEMPLATES_DIR = BASE_DIR / "templates"
-DEFAULT_CONFIG_FILE = Path("tokyonight_config.yaml").resolve()
 DEFAULT_OUTPUT_ROOT = BASE_DIR / "generated"
 
 
@@ -54,7 +50,6 @@ TEMPLATED_COMPONENTS: List[TemplateSpec] = [
 #  Utilidades comunes
 # ────────────────────────────────────────────────
 def generate_file_from_template(template: Path | str, data: dict | str, output: Path):
-    """Rellena una plantilla (Path o str) con un dict o texto plano."""
     text = template.read_text() if isinstance(template, Path) else str(template)
     rendered = Template(text).render(data) if isinstance(data, dict) else str(data)
     output.write_text(rendered)
@@ -114,9 +109,12 @@ SIMPLE_COMPONENTS: Dict[str, str | Callable[[str], str]] = {
 #  CLI y ejecución principal
 # ────────────────────────────────────────────────
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Generate theme assets from templates.")
+    parser = argparse.ArgumentParser(description="Generate a complete theme folder from configuration.")
     parser.add_argument("theme_name", help="Nombre del theme (ej. tokyonight)")
-    parser.add_argument("--config", default=DEFAULT_CONFIG_FILE, help="Archivo YAML de configuración")
+    parser.add_argument(
+        "--config",
+        help="Archivo YAML de configuración (por defecto busca <theme_name>_configuration.yaml o configuration.yaml)",
+    )
     parser.add_argument("--templates-dir", default=DEFAULT_TEMPLATES_DIR, help="Directorio de plantillas")
     parser.add_argument("--output-dir", help="Directorio de salida (por defecto ./generated/<theme_name>)")
     parser.add_argument("--only", nargs="+", help="Generar solo componentes indicados")
@@ -124,16 +122,32 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     theme_name = args.theme_name
     templates_dir = Path(args.templates_dir).expanduser()
-    config_path = Path(args.config).expanduser()
+
+    # Auto-detect config path
+    if args.config:
+        config_path = Path(args.config).expanduser()
+    else:
+        candidates = [
+            Path.cwd() / f"{theme_name}_configuration.yaml",
+            Path.cwd() / "configuration.yaml",
+        ]
+        found = next((p for p in candidates if p.exists()), None)
+        if not found:
+            raise SystemExit("❌ No se encontró ningún configuration.yaml válido.")
+        config_path = found
+
     output_dir = Path(args.output_dir or (DEFAULT_OUTPUT_ROOT / theme_name)).expanduser()
     output_dir.mkdir(parents=True, exist_ok=True)
 
     config = load_configuration(config_path)
     wanted = set(a.lower() for a in args.only) if args.only else None
 
-    print(f"✨ Generando theme '{theme_name}' en {output_dir}")
+    print(f"✨ Generando theme '{theme_name}' desde {config_path.name}")
+    print(f"📦 Carpeta de salida → {output_dir}")
 
-    # Componentes templated
+    # ───────────────────────────────
+    #  Componentes con plantillas
+    # ───────────────────────────────
     for spec in TEMPLATED_COMPONENTS:
         if wanted and spec.name not in wanted:
             continue
@@ -141,9 +155,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         data = config.get(spec.config_key, {})
         out_path = output_dir / spec.output_filename
         generate_file_from_template(template_path, data, out_path)
-        print(f"  • {spec.name}: {out_path}")
+        print(f"  • {spec.name}: {out_path.name}")
 
-    # Componentes simples
+    # ───────────────────────────────
+    #  Componentes simples
+    # ───────────────────────────────
     for name, generator in SIMPLE_COMPONENTS.items():
         if wanted and name not in wanted:
             continue
@@ -153,10 +169,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "neovim": "neovim.lua",
             "vscode": "vscode.json",
         }[name]
-        generate_file_from_template(generator(theme_name), "", out_file)
-        print(f"  • {name}: {out_file}")
+        content = generator(theme_name) if callable(generator) else generator
+        out_file.write_text(str(content))
+        print(f"  • {name}: {out_file.name}")
 
-    print("✅ Theme generado correctamente.")
+    print(f"✅ Theme '{theme_name}' generado correctamente en {output_dir}")
     return 0
 
 

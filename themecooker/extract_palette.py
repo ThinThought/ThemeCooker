@@ -6,7 +6,7 @@ from PIL import Image
 import yaml
 from collections import Counter
 
-MAX_COLORS = 35
+MAX_COLORS = 37
 COLOR_DEPTH = 8  # reduce palette to 8 bits/channel for speed
 
 
@@ -44,7 +44,7 @@ def main():
     # Build dict color_0 ... color_n
     color_dict = {f"color_{i}": c for i, c in enumerate(most_common)}
 
-    output_path = Path.cwd() / "extracted_colors.yaml"
+    output_path = Path.cwd() / "colors_extracted.yaml"
     with open(output_path, "w") as f:
         yaml.safe_dump(color_dict, f, sort_keys=True, allow_unicode=True)
 

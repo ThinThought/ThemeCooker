@@ -11,7 +11,7 @@ def main():
     try:
         # Localiza el archivo dentro del paquete
         with resources.path("themecooker.generator.config", "theme_configuration_template.yaml") as template_path:
-            dest_path = Path.cwd() / "configuration.yaml"
+            dest_path = Path.cwd() / "template_configuration.yaml"
 
             if dest_path.exists():
                 print(f"⚠️  '{dest_path}' already exists — aborting to avoid overwrite.")

@@ -15,10 +15,14 @@ dependencies = [
 ]
 
 [project.scripts]
-cook-theme = "themecooker.generator.generate_theme:main"
-let-me-cook = "themecooker.let_me_cook:main"
+lets-cook = "themecooker.let_me_cook:main"
+
+let-me-see = "themecooker.extract_palette:main"
+let-me-prepare = "themecooker.generator.generate_theme_config:main"
+let-me-cook = "themecooker.generator.generate_theme:main"
+
 let-me-taste = "themecooker.analyze_configuration:main"
-let-me-extract = "themecooker.extract_palette:main"
+
 
 
 # ──────────────────────────────────────────────
