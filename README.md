@@ -77,19 +77,6 @@ example
 ```
 I based the structure of the generation on the files found in the theme tokyonight, from it , I structured the templates 
 in the generator.
----
-## 🔙 Diagrams
-I enjoy writing mermaid diagrams
-
-```mermaid
-graph TD
-    subgraph tc[themecooker]
-        
-    end
-    
-```
-
-
 
 ---
 
