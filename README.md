@@ -69,28 +69,27 @@ example
 ├── alacritty.toml
 ├── backgrounds
 │   ├── img_1.png
-│   ├── img_3.png
-│   ├── img_4.png
-│   ├── img_5.png
-│   ├── img_6.png
-│   ├── img_7.png
-│   ├── img_8.png
-│   └── img.png
-├── btop.theme
-├── chromium.theme
-├── eza.yml
-├── ghostty.conf
-├── hyprland.conf
-├── hyprlock.conf
-├── icons.theme
-├── kitty.conf
-├── mako.ini
-├── neovim.lua
-├── swayosd.css
-├── vscode.json
-├── walker.css
-└── waybar.css
+│   ├── img_2.png
+          |     ...
+│   └── img_n.png
+|
+|  ... more configuration files
 ```
+I based the structure of the generation on the files found in the theme tokyonight, from it , I structured the templates 
+in the generator.
+---
+## 🔙 Diagrams
+I enjoy writing mermaid diagrams
+
+```mermaid
+graph TD
+    subgraph tc[themecooker]
+        
+    end
+    
+```
+
+
 
 ---
 
